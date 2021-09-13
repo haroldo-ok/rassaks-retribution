@@ -3,7 +3,10 @@
 #include <string.h>
 #include "lib/SMSlib.h"
 #include "lib/PSGlib.h"
+#include "actor.h"
 #include "data.h"
+
+actor player;
 
 void load_standard_palettes() {
 	SMS_loadBGPalette(sprites_palette_bin);
@@ -20,8 +23,15 @@ void main() {
 	load_standard_palettes();
 
 	SMS_displayOn();
+
+	init_actor(&player, 32, 15, 2, 1, 64, 16);
 	
 	while (1) {
+		SMS_initSprites();	
+		draw_actor(&player);
+		SMS_finalizeSprites();
+		SMS_waitForVBlank();
+		SMS_copySpritestoSAT();
 	}
 }
 

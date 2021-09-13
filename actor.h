@@ -1,0 +1,30 @@
+#ifndef ACTOR_H
+#define ACTOR_H
+
+#define SCREEN_W (256)
+#define SCREEN_H (192)
+
+typedef struct actor {
+	char active;
+	
+	int x, y;
+	int spd_x;
+	char facing_left;
+	
+	char char_w, char_h;
+	char pixel_w, pixel_h;
+	
+	unsigned char animation_delay, animation_delay_max;
+	unsigned char base_tile, frame_count;
+	unsigned char frame, frame_increment, frame_max;
+	
+	char col_x, col_y, col_w, col_h;
+} actor;
+
+void draw_meta_sprite(int x, int y, int w, int h, unsigned char tile);
+void init_actor(actor *act, int x, int y, int char_w, int char_h, unsigned char base_tile, unsigned char frame_count);
+void draw_actor(actor *act);
+
+void wait_frames(int wait_time);
+
+#endif /* ACTOR_H */

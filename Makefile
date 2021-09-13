@@ -1,5 +1,5 @@
 PRJNAME := rassaks_retribution
-OBJS := data.rel rassaks_retribution.rel
+OBJS := data.rel actor.rel rassaks_retribution.rel
 
 all: $(PRJNAME).sms
 
