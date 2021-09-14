@@ -13,6 +13,8 @@
 #define PLAYER_BOTTOM (SCREEN_H - 16)
 
 actor player;
+actor base;
+actor saw;
 
 void load_standard_palettes() {
 	SMS_loadBGPalette(sprites_palette_bin);
@@ -60,12 +62,16 @@ void main() {
 	SMS_displayOn();
 
 	init_actor(&player, 32, 15, 2, 1, 64, 16);
+	init_actor(&base, 64, 32, 2, 1, 128, 6);
+	init_actor(&saw, 96, 48, 2, 1, 128 + 24, 6);
 	
 	while (1) {
 		handle_player_input();
 		
 		SMS_initSprites();	
 		draw_actor(&player);
+		draw_actor(&base);
+		draw_actor(&saw);
 		SMS_finalizeSprites();
 		SMS_waitForVBlank();
 		SMS_copySpritestoSAT();
