@@ -14,7 +14,6 @@
 
 actor player;
 actor base;
-actor saw;
 actor seeker;
 
 void load_standard_palettes() {
@@ -63,8 +62,7 @@ void main() {
 	SMS_displayOn();
 
 	init_actor(&player, 32, 15, 2, 1, 64, 16);
-	init_actor(&base, 64, 32, 2, 1, 128, 6);
-	init_actor(&saw, 96, 48, 2, 1, 128 + 24, 6);
+	init_actor(&base, 224, 88, 2, 1, 128, 6);
 	init_actor(&seeker, 128, 64, 2, 1, 192, 5);
 	
 	while (1) {
@@ -73,7 +71,6 @@ void main() {
 		SMS_initSprites();	
 		draw_actor(&player);
 		draw_actor(&base);
-		draw_actor(&saw);
 		draw_actor(&seeker);
 		SMS_finalizeSprites();
 		SMS_waitForVBlank();
