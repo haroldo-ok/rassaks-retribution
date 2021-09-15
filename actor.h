@@ -17,6 +17,7 @@ typedef struct actor {
 	
 	int x, y;
 	fixed incr_x, incr_y;
+	fixed spd_x, spd_y;
 	
 	char facing_left;
 	
@@ -26,6 +27,9 @@ typedef struct actor {
 	unsigned char animation_delay, animation_delay_max;
 	unsigned char base_tile, frame_count;
 	unsigned char frame, frame_increment, frame_max;
+	
+	unsigned char state;
+	int state_timer;
 	
 	char col_x, col_y, col_w, col_h;
 } actor;

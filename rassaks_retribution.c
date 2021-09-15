@@ -48,20 +48,59 @@ void handle_player_input() {
 	
 	move_actor(&player);
 	
-	if (player.y < PLAYER_TOP) {
-		player.y = PLAYER_TOP;
-	} else if (player.y > PLAYER_BOTTOM) {
-		player.y = PLAYER_BOTTOM;
-	}
-	
 	if (player.x < 0) {
 		player.x = 0;
 	} else if (player.x > 240) {
 		player.x = 240;
 	}
 	
+	if (player.y < PLAYER_TOP) {
+		player.y = PLAYER_TOP;
+	} else if (player.y > PLAYER_BOTTOM) {
+		player.y = PLAYER_BOTTOM;
+	}
+	
 	if (joy & (PORT_A_KEY_1 | PORT_A_KEY_2)) {
 	}
+}
+
+void handle_base_movement() {
+	static int delta_x, delta_y, distance;
+	
+	move_actor(&base);
+
+	if (base.x < -8 || base.x > 248 || base.y < (PLAYER_TOP - 8) || base.y > (PLAYER_BOTTOM + 8)) {
+		init_actor(&base, 224, 88, 2, 1, 128, 6);
+	}
+	
+	switch (base.state) {
+	case 0:
+		// Initialize
+		base.state = 1;
+		base.state_timer = 120;
+		break;
+		
+	case 1:
+		if (!base.state_timer) {
+			// Morph into a projectile and wait a bit more
+			init_actor(&base, base.x, base.y, 2, 1, 128 + 24, 6);
+			base.state = 2;
+			base.state_timer = 120;
+		}
+		break;
+		
+	case 2:
+		// Aim at the player and attack
+		delta_x = player.x - base.x;
+		delta_y = player.y - base.y;
+		distance = (abs(delta_x) + abs(delta_y)) / 4; // Manhattan distance divided by scaling factor
+		if (!distance) distance = 1;
+		
+		base.spd_x.w = delta_x * 128 / distance;
+		base.spd_y.w = delta_y * 128 / distance;
+		base.state = 4;
+		break;
+	}	
 }
 
 void main() {
@@ -77,10 +116,11 @@ void main() {
 
 	init_actor(&player, 32, 15, 2, 1, 64, 16);
 	init_actor(&base, 224, 88, 2, 1, 128, 6);
-	init_actor(&seeker, 128, 64, 2, 1, 192, 5);
+	init_actor(&seeker, 128, 64, 2, 1, 192, 5);	
 	
 	while (1) {
 		handle_player_input();
+		handle_base_movement();
 		
 		SMS_initSprites();	
 		draw_actor(&player);
