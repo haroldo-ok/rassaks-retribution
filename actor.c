@@ -36,7 +36,8 @@ void init_actor(actor *act, int x, int y, int char_w, int char_h, unsigned char 
 	
 	sa->x = x;
 	sa->y = y;
-	sa->spd_x = 0;
+	sa->incr_x.w = 0;
+	sa->incr_y.w = 0;
 	sa->facing_left = 1;
 	
 	sa->char_w = char_w;
@@ -57,6 +58,26 @@ void init_actor(actor *act, int x, int y, int char_w, int char_h, unsigned char 
 	sa->col_h = sa->pixel_h - 4;
 	sa->col_x = (sa->pixel_w - sa->col_w) >> 1;
 	sa->col_y = (sa->pixel_h - sa->col_h) >> 1;
+}
+
+void move_actor(actor *act) {
+	static actor *_act;
+	
+	if (!act->active) {
+		return;
+	}
+	
+	_act = act;
+	
+	if (_act->incr_x.b.h) {
+		_act->x += _act->incr_x.b.h;
+		_act->incr_x.b.h = 0;
+	}
+	
+	if (_act->incr_y.b.h) {
+		_act->y += _act->incr_y.b.h;
+		_act->incr_y.b.h = 0;
+	}
 }
 
 void draw_actor(actor *act) {

@@ -6,7 +6,7 @@
 #include "actor.h"
 #include "data.h"
 
-#define PLAYER_SPEED (2)
+#define PLAYER_SPEED ((int) 1.5 * 256)
 #define PLAYER_SHOT_SPEED (6)
 #define PLAYER_TOP (16)
 #define PLAYER_LEFT (8)
@@ -31,19 +31,26 @@ void handle_player_input() {
 	unsigned char joy = SMS_getKeysStatus();
 	
 	if (joy & PORT_A_KEY_UP) {
-		if (player.y > PLAYER_TOP) player.y -= PLAYER_SPEED;
+		player.incr_y.w -= PLAYER_SPEED;
 		shuffle_random(1);
 	} else if (joy & PORT_A_KEY_DOWN) {
-		if (player.y < PLAYER_BOTTOM) player.y += PLAYER_SPEED;
+		player.incr_y.w += PLAYER_SPEED;
 		shuffle_random(2);
 	}
 	
-	if (joy & PORT_A_KEY_LEFT) {		
-		if (player.x > PLAYER_LEFT) player.x -= PLAYER_SPEED;
+	if (joy & PORT_A_KEY_LEFT) {
+		player.incr_x.w -= PLAYER_SPEED;
 		shuffle_random(3);
 	} else if (joy & PORT_A_KEY_RIGHT) {
-		if (player.x < SCREEN_W - player.pixel_w) player.x += PLAYER_SPEED;
+		player.incr_x.w += PLAYER_SPEED;
 		shuffle_random(4);
+	}
+	
+	move_actor(&player);
+	if (player.y < PLAYER_TOP) {
+		player.y = PLAYER_TOP;
+	} else if (player.y > PLAYER_BOTTOM) {
+		player.y = PLAYER_BOTTOM;
 	}
 	
 	if (joy & (PORT_A_KEY_1 | PORT_A_KEY_2)) {

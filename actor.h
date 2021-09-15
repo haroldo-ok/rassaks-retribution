@@ -4,11 +4,20 @@
 #define SCREEN_W (256)
 #define SCREEN_H (192)
 
+typedef union _fixed {
+  struct {
+    unsigned char l;
+    signed char h;
+  } b;
+  int w;
+} fixed;
+
 typedef struct actor {
 	char active;
 	
 	int x, y;
-	int spd_x;
+	fixed incr_x, incr_y;
+	
 	char facing_left;
 	
 	char char_w, char_h;
@@ -23,6 +32,7 @@ typedef struct actor {
 
 void draw_meta_sprite(int x, int y, int w, int h, unsigned char tile);
 void init_actor(actor *act, int x, int y, int char_w, int char_h, unsigned char base_tile, unsigned char frame_count);
+void move_actor(actor *act);
 void draw_actor(actor *act);
 
 void wait_frames(int wait_time);
