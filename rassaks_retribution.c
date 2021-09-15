@@ -47,10 +47,17 @@ void handle_player_input() {
 	}
 	
 	move_actor(&player);
+	
 	if (player.y < PLAYER_TOP) {
 		player.y = PLAYER_TOP;
 	} else if (player.y > PLAYER_BOTTOM) {
 		player.y = PLAYER_BOTTOM;
+	}
+	
+	if (player.x < 0) {
+		player.x = 0;
+	} else if (player.x > 240) {
+		player.x = 240;
 	}
 	
 	if (joy & (PORT_A_KEY_1 | PORT_A_KEY_2)) {
