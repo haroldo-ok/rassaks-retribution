@@ -39,6 +39,8 @@ void init_actor(actor *act, int x, int y, int char_w, int char_h, unsigned char 
 void move_actor(actor *act);
 void draw_actor(actor *act);
 
+void aim_actor_towards(actor *act, actor *target);
+
 void wait_frames(int wait_time);
 
 #endif /* ACTOR_H */

@@ -65,8 +65,6 @@ void handle_player_input() {
 }
 
 void handle_base_movement() {
-	static int delta_x, delta_y, distance;
-	
 	move_actor(&base);
 
 	if (base.x < -8 || base.x > 248 || base.y < (PLAYER_TOP - 8) || base.y > (PLAYER_BOTTOM + 8)) {
@@ -91,14 +89,8 @@ void handle_base_movement() {
 		
 	case 2:
 		// Aim at the player and attack
-		delta_x = player.x - base.x;
-		delta_y = player.y - base.y;
-		distance = (abs(delta_x) + abs(delta_y)) / 4; // Manhattan distance divided by scaling factor
-		if (!distance) distance = 1;
-		
-		base.spd_x.w = delta_x * 128 / distance;
-		base.spd_y.w = delta_y * 128 / distance;
-		base.state = 4;
+		aim_actor_towards(&base, &player);
+		base.state = 3;
 		break;
 	}	
 }
