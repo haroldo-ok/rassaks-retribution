@@ -102,6 +102,18 @@ fill_background() {
 	}
 }
 
+draw_barrier() {
+	static char x, y;
+	
+	for (y = 4; y < (SCREEN_CHAR_H - 4); y++) {
+		x = 20;
+		SMS_setNextTileatXY(x, y);
+		for (; x < SCREEN_CHAR_W; x++) {
+			SMS_setTile((256 + 4) + (rand() & 0x03));
+		}
+	}
+}
+
 void main() {
 	SMS_useFirstHalfTilesforSprites(1);
 	SMS_setSpriteMode(SPRITEMODE_TALL);
@@ -113,6 +125,7 @@ void main() {
 	load_standard_palettes();
 	
 	fill_background();
+	draw_barrier();
 
 	SMS_displayOn();
 
