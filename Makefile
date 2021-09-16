@@ -3,11 +3,14 @@ OBJS := data.rel actor.rel rassaks_retribution.rel
 
 all: $(PRJNAME).sms
 
-data.c: data/* data/sprites_tiles.psgcompr
+data.c: data/* data/sprites_tiles.psgcompr data/tiles_tiles.psgcompr
 	folder2c data data
 	
 data/sprites_tiles.psgcompr: data/img/sprites.png
 	BMP2Tile.exe data/img/sprites.png -noremovedupes -8x16 -palsms -fullpalette -savetiles data/sprites_tiles.psgcompr -savepalette data/sprites_palette.bin
+
+data/tiles_tiles.psgcompr: data/img/tiles.png
+	BMP2Tile.exe data/img/tiles.png -noremovedupes -8x16 -palsms -fullpalette -savetiles data/tiles_tiles.psgcompr -savepalette data/tiles_palette.bin
 	
 %.vgm: %.wav
 	psgtalk -r 512 -u 1 -m vgm $<

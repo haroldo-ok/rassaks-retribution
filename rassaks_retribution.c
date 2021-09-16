@@ -17,7 +17,7 @@ actor base;
 actor seeker;
 
 void load_standard_palettes() {
-	SMS_loadBGPalette(sprites_palette_bin);
+	SMS_loadBGPalette(tiles_palette_bin);
 	SMS_loadSpritePalette(sprites_palette_bin);
 }
 
@@ -95,6 +95,13 @@ void handle_base_movement() {
 	}	
 }
 
+fill_background() {
+	SMS_setNextTileatXY(0, 0);
+	for (int i = (SCREEN_CHAR_W * SCREEN_CHAR_H); i; i--) {
+		SMS_setTile(256 + (rand() & 0x03));
+	}
+}
+
 void main() {
 	SMS_useFirstHalfTilesforSprites(1);
 	SMS_setSpriteMode(SPRITEMODE_TALL);
@@ -102,7 +109,10 @@ void main() {
 
 	SMS_displayOff();
 	SMS_loadPSGaidencompressedTiles(sprites_tiles_psgcompr, 0);
+	SMS_loadPSGaidencompressedTiles(tiles_tiles_psgcompr, 256);
 	load_standard_palettes();
+	
+	fill_background();
 
 	SMS_displayOn();
 
