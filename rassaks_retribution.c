@@ -89,7 +89,7 @@ void handle_base_movement() {
 		
 	case 2:
 		// Aim at the player and attack
-		aim_actor_towards(&base, &player);
+		aim_actor_towards(&base, &player, 128);
 		base.state = 3;
 		break;
 	}	
@@ -107,7 +107,7 @@ void handle_seeker_movement() {
 	
 	case 1:
 		if (!seeker.state_timer) {
-			aim_actor_towards(&seeker, &player);
+			aim_actor_towards(&seeker, &player, 64);
 			seeker.state_timer = 30;
 		}
 		break;

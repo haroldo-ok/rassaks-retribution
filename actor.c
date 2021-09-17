@@ -116,14 +116,14 @@ void draw_actor(actor *act) {
 	}
 }
 
-void aim_actor_towards(actor *act, actor *target) {
+void aim_actor_towards(actor *act, actor *target, int speed) {
 	int delta_x = target->x - act->x;
 	int delta_y = target->y - act->y;
 	int distance = (abs(delta_x) + abs(delta_y)) / 4; // Manhattan distance divided by scaling factor
 	if (!distance) distance = 1;
 	
-	act->spd_x.w = delta_x * 128 / distance;
-	act->spd_y.w = delta_y * 128 / distance;
+	act->spd_x.w = delta_x * speed / distance;
+	act->spd_y.w = delta_y * speed / distance;
 }
 
 void wait_frames(int wait_time) {
