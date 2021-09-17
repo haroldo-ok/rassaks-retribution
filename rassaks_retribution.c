@@ -6,7 +6,7 @@
 #include "actor.h"
 #include "data.h"
 
-#define PLAYER_SPEED ((int) 1.5 * 256)
+#define PLAYER_SPEED ((int) 2 * 256)
 #define PLAYER_SHOT_SPEED (6)
 #define PLAYER_TOP (16)
 #define PLAYER_LEFT (8)
@@ -108,8 +108,8 @@ void handle_seeker_movement() {
 	
 	case 1:
 		if (!seeker.state_timer) {
-			aim_actor_towards(&seeker, &player, 64);
-			seeker.state_timer = 30;
+			aim_actor_towards(&seeker, &player, 96);
+			seeker.state_timer = 15;
 		}
 		break;
 	}
