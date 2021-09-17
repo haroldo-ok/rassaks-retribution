@@ -19,6 +19,7 @@ actor seeker;
 void load_standard_palettes() {
 	SMS_loadBGPalette(tiles_palette_bin);
 	SMS_loadSpritePalette(sprites_palette_bin);
+	SMS_setSpritePaletteColor(0, 0);
 }
 
 void shuffle_random(char times) {
