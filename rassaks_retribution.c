@@ -95,6 +95,25 @@ void handle_base_movement() {
 	}	
 }
 
+void handle_seeker_movement() {
+	move_actor(&seeker);
+	
+	switch (seeker.state) {
+	case 0:
+		// Initialize
+		seeker.state_timer = 0;
+		seeker.state = 1;		
+		break;
+	
+	case 1:
+		if (!seeker.state_timer) {
+			aim_actor_towards(&seeker, &player);
+			seeker.state_timer = 30;
+		}
+		break;
+	}
+}
+
 fill_background() {
 	SMS_setNextTileatXY(0, 0);
 	for (int i = (SCREEN_CHAR_W * SCREEN_CHAR_H); i; i--) {
@@ -136,6 +155,7 @@ void main() {
 	while (1) {
 		handle_player_input();
 		handle_base_movement();
+		handle_seeker_movement();
 		
 		SMS_initSprites();	
 		draw_actor(&player);
