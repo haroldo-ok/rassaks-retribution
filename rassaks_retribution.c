@@ -112,6 +112,18 @@ void handle_seeker_movement() {
 		}
 		break;
 	}
+	
+	if (seeker.x < 0) {
+		seeker.x = 0;
+	} else if (seeker.x > 240) {
+		seeker.x = 240;
+	}
+	
+	if (seeker.y < PLAYER_TOP) {
+		seeker.y = PLAYER_TOP;
+	} else if (seeker.y > PLAYER_BOTTOM) {
+		seeker.y = PLAYER_BOTTOM;
+	}
 }
 
 fill_background() {
