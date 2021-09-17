@@ -3,6 +3,9 @@
 
 #define SCREEN_W (256)
 #define SCREEN_H (192)
+#define SCREEN_CHAR_W (32)
+#define SCREEN_CHAR_H (24)
+
 
 typedef union _fixed {
   struct {

@@ -48,7 +48,7 @@ void init_actor(actor *act, int x, int y, int char_w, int char_h, unsigned char 
 	sa->pixel_h = char_h << 4;
 	
 	sa->animation_delay = 0;
-	sa->animation_delay_max = 3;
+	sa->animation_delay_max = 2;
 	
 	sa->base_tile = base_tile;
 	sa->frame_count = frame_count;
