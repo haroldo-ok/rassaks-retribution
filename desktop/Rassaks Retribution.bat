@@ -1,1 +1,1 @@
-emulator\Fusion.exe rassaks_retribution-2.0.sms
+emulator\Fusion.exe rassaks_retribution-0.2.sms
