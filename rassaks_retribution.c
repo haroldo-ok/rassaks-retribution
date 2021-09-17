@@ -6,7 +6,7 @@
 #include "actor.h"
 #include "data.h"
 
-#define PLAYER_SPEED ((int) 1.5 * 256)
+#define PLAYER_SPEED ((int) 2 * 256)
 #define PLAYER_SHOT_SPEED (6)
 #define PLAYER_TOP (16)
 #define PLAYER_LEFT (8)
@@ -19,6 +19,7 @@ actor seeker;
 void load_standard_palettes() {
 	SMS_loadBGPalette(tiles_palette_bin);
 	SMS_loadSpritePalette(sprites_palette_bin);
+	SMS_setSpritePaletteColor(0, 0);
 }
 
 void shuffle_random(char times) {
@@ -89,10 +90,41 @@ void handle_base_movement() {
 		
 	case 2:
 		// Aim at the player and attack
-		aim_actor_towards(&base, &player);
+		aim_actor_towards(&base, &player, 128);
 		base.state = 3;
 		break;
 	}	
+}
+
+void handle_seeker_movement() {
+	move_actor(&seeker);
+	
+	switch (seeker.state) {
+	case 0:
+		// Initialize
+		seeker.state_timer = 0;
+		seeker.state = 1;		
+		break;
+	
+	case 1:
+		if (!seeker.state_timer) {
+			aim_actor_towards(&seeker, &player, 96);
+			seeker.state_timer = 15;
+		}
+		break;
+	}
+	
+	if (seeker.x < 0) {
+		seeker.x = 0;
+	} else if (seeker.x > 240) {
+		seeker.x = 240;
+	}
+	
+	if (seeker.y < PLAYER_TOP) {
+		seeker.y = PLAYER_TOP;
+	} else if (seeker.y > PLAYER_BOTTOM) {
+		seeker.y = PLAYER_BOTTOM;
+	}
 }
 
 fill_background() {
@@ -136,6 +168,7 @@ void main() {
 	while (1) {
 		handle_player_input();
 		handle_base_movement();
+		handle_seeker_movement();
 		
 		SMS_initSprites();	
 		draw_actor(&player);
@@ -148,6 +181,6 @@ void main() {
 }
 
 SMS_EMBED_SEGA_ROM_HEADER(9999,0); // code 9999 hopefully free, here this means 'homebrew'
-SMS_EMBED_SDSC_HEADER(0,1, 2021,9,13, "Haroldo-OK\\2021", "Rassak's Retribution",
+SMS_EMBED_SDSC_HEADER(0,2, 2021,9,17, "Haroldo-OK\\2021", "Rassak's Retribution",
   "An Yar's Revenge clone.\n"
   "Built using devkitSMS & SMSlib - https://github.com/sverx/devkitSMS");
