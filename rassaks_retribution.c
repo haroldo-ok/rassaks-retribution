@@ -198,6 +198,6 @@ void main() {
 }
 
 SMS_EMBED_SEGA_ROM_HEADER(9999,0); // code 9999 hopefully free, here this means 'homebrew'
-SMS_EMBED_SDSC_HEADER(0,2, 2021,9,17, "Haroldo-OK\\2021", "Rassak's Retribution",
+SMS_EMBED_SDSC_HEADER(0,3, 2021,9,18, "Haroldo-OK\\2021", "Rassak's Retribution",
   "An Yar's Revenge clone.\n"
   "Built using devkitSMS & SMSlib - https://github.com/sverx/devkitSMS");
