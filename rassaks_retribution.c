@@ -12,10 +12,13 @@
 #define PLAYER_LEFT (8)
 #define PLAYER_BOTTOM (SCREEN_H - 16)
 
+#define CANNON_SPEED ((int) 1.8 * 256)
+
 actor player;
 actor base;
 actor seeker;
 actor shot;
+actor cannon;
 
 void load_standard_palettes() {
 	SMS_loadBGPalette(tiles_palette_bin);
@@ -139,6 +142,24 @@ void handle_shot_movement() {
 	if (shot.x > 255) shot.active = 0;
 }
 
+void handle_cannon_movement() {
+	move_actor(&cannon);	
+
+	if (cannon.y < PLAYER_TOP) {
+		cannon.y = PLAYER_TOP;
+	} else if (cannon.y > PLAYER_BOTTOM) {
+		cannon.y = PLAYER_BOTTOM;
+	}
+	
+	if (cannon.y == player.y) {
+		cannon.spd_y.w = 0;
+	} if (cannon.y < player.y) {
+		cannon.spd_y.w = CANNON_SPEED;
+	} else {
+		cannon.spd_y.w = -CANNON_SPEED;
+	}
+}
+
 fill_background() {
 	SMS_setNextTileatXY(0, 0);
 	for (int i = (SCREEN_CHAR_W * SCREEN_CHAR_H); i; i--) {
@@ -177,6 +198,7 @@ void main() {
 	init_actor(&base, 224, 88, 2, 1, 128, 6);
 	init_actor(&seeker, 128, 64, 2, 1, 192, 5);	
 	init_actor(&shot, 32, 15, 2, 1, 4, 8);
+	init_actor(&cannon, 8, 15, 2, 1, 212, 5);
 	
 	shot.active = 0;
 	
@@ -185,12 +207,14 @@ void main() {
 		handle_base_movement();
 		handle_seeker_movement();
 		handle_shot_movement();
+		handle_cannon_movement();
 		
 		SMS_initSprites();	
 		draw_actor(&player);
 		draw_actor(&base);
 		draw_actor(&seeker);
 		draw_actor(&shot);
+		draw_actor(&cannon);
 		SMS_finalizeSprites();
 		SMS_waitForVBlank();
 		SMS_copySpritestoSAT();
